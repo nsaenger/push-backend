@@ -62,7 +62,7 @@ export class App {
   private routes() {
     LoggerService.Info('loading routes');
 
-    this.express.use('/ping', this.indexController.router());
+    this.express.use('/push', this.indexController.router());
     this.express.use('/static', express.static('public'));
 
 

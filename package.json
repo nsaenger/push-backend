@@ -26,7 +26,8 @@
     "https": "^1.0.0",
     "module-alias": "^2.2.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.2"
+    "rxjs": "^6.5.2",
+    "web-push": "^3.4.3"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
