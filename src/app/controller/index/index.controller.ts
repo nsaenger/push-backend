@@ -74,27 +74,16 @@ export class IndexController {
   }
 
   public send(subscription, data = null) {
-    const payload = data ? JSON.stringify(data) : JSON.stringify({
-      notification: {
-        title: 'Your Gate Changed',
-        body: 'Your Gate is now G62',
-        icon: './assets/img/angular.png',
-        data: 'additional data'
-      }
-    });
-
     webpush.setVapidDetails(
       'http://localhost:3000/',
       this.vapidKeys.publicKey,
       this.vapidKeys.privateKey
     );
 
-    webpush.sendNotification(subscription, payload).catch((err) => {
+    webpush.sendNotification(subscription, JSON.stringify(data)).catch((err) => {
       if (err.statusCode === 404 || err.statusCode === 410) {
         LoggerService.Info('Subscription expired, deleting');
         this.subscriptionService.delete(subscription).subscribe();
-      } else {
-        LoggerService.Info('Sending push notification');
       }
     });
   }

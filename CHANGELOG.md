@@ -1,29 +1,27 @@
-# Changelog
+## Push Frontend
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+#### Wichtige Dateien
 
-### [1.8.2](https://gitlab.ninesun.de///compare/v1.8.1...v1.8.2) (2020-03-09)
+##### index.controller.ts
+```typescript
+const webpush = require('web-push');
 
+{ ... }
 
-### Bug Fixes
+public send(subscription, data = null) {
+  // Set encryption details (public key is used in frontend)
+  webpush.setVapidDetails(
+    'http://localhost:3000/',
+    this.vapidKeys.publicKey,
+    this.vapidKeys.privateKey
+  );
 
-* fixed missing parentheses ([f036bf6](https://gitlab.ninesun.de///commit/f036bf6))
-
-### [1.8.1](https://gitlab.ninesun.de///compare/v1.8.0...v1.8.1) (2020-03-02)
-
-
-### Bug Fixes
-
-* fixes startup error of puppeteer ([f228d65](https://gitlab.ninesun.de///commit/f228d65))
-
-## 1.8.0 (2020-02-27)
-
-
-### Bug Fixes
-
-* initial commit ([ecf4210](https://gitlab.ninesun.de///commit/ecf4210))
-
-
-### Features
-
-* initial commit ([c291fec](https://gitlab.ninesun.de///commit/c291fec))
+  // Actually send notification or delete it if subscription got revoked by user
+  webpush.sendNotification(subscription, JSON.stringify(data)).catch((err) => {
+    if (err.statusCode === 404 || err.statusCode === 410) {
+      LoggerService.Info('Subscription expired, deleting');
+      this.subscriptionService.delete(subscription).subscribe();
+    }
+  });
+}
+```
