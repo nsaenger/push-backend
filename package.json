@@ -35,7 +35,7 @@
     "@types/node": "^12.7.5",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
-    "standard-version": "^7.0.0",
+    "standard-version": "^8.0.1",
     "tree-kill": "^1.2.2",
     "typescript": "^3.6.3"
   }
